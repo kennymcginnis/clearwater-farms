@@ -2,6 +2,7 @@ app = "clearwater-farms-a861"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = [ ]
+primary_region = "phx" 
 
 [experimental]
 enable_consul = true
