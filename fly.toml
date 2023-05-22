@@ -1,50 +1,50 @@
-# fly.toml app configuration file generated for clearwater-farms on 2023-05-21T21:12:58-07:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
-app = "clearwater-farms"
-primary_region = "phx"
+app = "clearwater-farms-a861"
 kill_signal = "SIGINT"
-kill_timeout = "5s"
+kill_timeout = 5
+processes = [ ]
+primary_region = "phx" 
 
 [experimental]
-  auto_rollback = true
-  enable_consul = true
+enable_consul = true
+allowed_public_ports = [ ]
+auto_rollback = true
 
-[[mounts]]
-  source = "data"
-  destination = "/data"
+[mounts]
+source = "data"
+destination = "/data"
 
 [[services]]
-  protocol = "tcp"
-  internal_port = 3000
-  processes = ["app"]
+internal_port = 8080
+processes = [ "app" ]
+protocol = "tcp"
+script_checks = [ ]
 
-  [[services.ports]]
-    port = 80
-    handlers = ["http"]
-    force_https = true
-
-  [[services.ports]]
-    port = 443
-    handlers = ["tls", "http"]
   [services.concurrency]
-    type = "connections"
-    hard_limit = 25
-    soft_limit = 20
+  hard_limit = 25
+  soft_limit = 20
+  type = "connections"
+
+  [[services.ports]]
+  handlers = [ "http" ]
+  port = 80
+  force_https = true
+
+  [[services.ports]]
+  handlers = [ "tls", "http" ]
+  port = 443
 
   [[services.tcp_checks]]
-    interval = "15s"
-    timeout = "2s"
-    grace_period = "1s"
-    restart_limit = 0
+  grace_period = "1s"
+  interval = "15s"
+  restart_limit = 0
+  timeout = "2s"
 
   [[services.http_checks]]
-    interval = "10s"
-    timeout = "2s"
-    grace_period = "5s"
-    restart_limit = 0
-    method = "get"
-    path = "/resources/healthcheck"
-    protocol = "http"
+  interval = "10s"
+  grace_period = "5s"
+  method = "get"
+  path = "/resources/healthcheck"
+  protocol = "http"
+  timeout = "2s"
+  tls_skip_verify = false
+  headers = { }
